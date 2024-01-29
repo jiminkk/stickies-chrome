@@ -1,0 +1,51 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm-watch",
+    "lint:build": "mv out/_next out/assets && sed -i 's/\\\\/_next/\\\\/assets/g' out/**.html",
+    "build": "next build && npm run lint:build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.14",
+    "next": "14.1.0",
+    "npm-watch": "^0.11.0",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "styles/**",
+        "pages/**",
+        "public/**",
+        "helpers/**",
+        "next.config.js"
+      ],
+      "ignore": [
+        "out",
+        "node_modules",
+        ".next",
+        ".vscode"
+      ],
+      "extensions": [
+        "js",
+        "json"
+      ]
+    }
+  }
+}

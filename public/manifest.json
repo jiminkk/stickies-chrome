@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Notion on New Tab",
+  "version": "1.0.0",
+  "description": "A basic manifest for notion page on new tab",
+  "permissions": [
+    "storage",
+    "tabs",
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://*/*", "http://*/*"],
+      "js": ["inject.js"]
+    }
+  ],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "index.html"
+  }
+}
