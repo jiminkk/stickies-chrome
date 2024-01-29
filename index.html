@@ -53,7 +53,7 @@
 <body>
   <!-- <span class="close-btn" onclick="removeSticky('note1')">X</span> -->
   <!-- Columns for stickies -->
-  <div class="column">
+  <div class="column" id="output">
     <div class="container">
       <div class="sticky-note" id="drag1" draggable="true" contentEditable="true">
         <label>
@@ -114,13 +114,25 @@
 <script>
 
   const readLocalStorage = async (key) => {
-    return new Promise((resolve, reject) =>
+    const promise = new Promise((resolve, reject) =>
       chrome.storage.sync.get([key], result =>
         chrome.runtime.lastError
           ? reject(Error(chrome.runtime.lastError.message))
           : resolve(result)
       )
     );
+    return await promise;
+  };
+
+  const writeLocalStorage = async (key, text) => {
+    const promise = new Promise((resolve, reject) =>
+      chrome.storage.sync.set({ [key]: text }, result =>
+        chrome.runtime.lastError
+          ? reject(Error(chrome.runtime.lastError.message))
+          : resolve(result)
+      )
+    );
+    return await promise;
   };
 
 
@@ -128,7 +140,7 @@
   // Render loaded stickies
 
   const stickiesChrome = [];
-  const storedStickies = await readLocalStorage();
+  const storedStickies = readLocalStorage("stickies");
   console.log(`storedStickies: ${JSON.stringify(storedStickies)}`);
 
   // Render the data in divs
@@ -179,6 +191,8 @@
       </div>
     `;
 
+    stickiesChrome.push(newDiv);
+    writeLocalStorage("stickies", JSON.stringify(stickiesChrome));
     lastContainer.appendChild(newDiv);
   }
 
